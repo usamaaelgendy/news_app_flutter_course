@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
@@ -58,26 +59,29 @@ class TrendingNews extends StatelessWidget {
                   height: 140,
                   child: Consumer<HomeController>(
                     builder: (BuildContext context, HomeController controller, Widget? child) {
-                      return (controller.errorMessage?.isNotEmpty ?? false)
-                          ? Center(child: Text(controller.errorMessage!))
-                          : controller.everythingLoading
-                          ? Center(child: CircularProgressIndicator())
-                          : ListView.separated(
-                        itemCount: controller.newsEverythingList.length,
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (BuildContext context, int index) => SizedBox(width: 12),
-                        itemBuilder: (BuildContext context, int index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Stack(
-                              children: [
-                                if (controller.newsEverythingList[index].urlToImage != null)
-                                  Image.network(controller.newsEverythingList[index].urlToImage!),
-                              ],
-                            ),
+                      switch (controller.everythingStatus) {
+                        case RequestStatusEnum.loading:
+                          return Center(child: CircularProgressIndicator());
+                        case RequestStatusEnum.error:
+                          return Center(child: Text(controller.errorMessage!));
+                        case RequestStatusEnum.loaded:
+                          return ListView.separated(
+                            itemCount: controller.newsEverythingList.length,
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (BuildContext context, int index) => SizedBox(width: 12),
+                            itemBuilder: (BuildContext context, int index) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Stack(
+                                  children: [
+                                    if (controller.newsEverythingList[index].urlToImage != null)
+                                      Image.network(controller.newsEverythingList[index].urlToImage!),
+                                  ],
+                                ),
+                              );
+                            },
                           );
-                        },
-                      );
+                      }
                     },
                   ),
                 ),
