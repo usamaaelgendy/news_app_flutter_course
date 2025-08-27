@@ -66,6 +66,7 @@ class TrendingNews extends StatelessWidget {
                           return Center(child: Text(controller.errorMessage!));
                         case RequestStatusEnum.loaded:
                           return ListView.separated(
+                            padding: EdgeInsets.only(left: 16),
                             itemCount: controller.newsEverythingList.length,
                             scrollDirection: Axis.horizontal,
                             separatorBuilder: (BuildContext context, int index) => SizedBox(width: 12),
@@ -75,7 +76,26 @@ class TrendingNews extends StatelessWidget {
                                 child: Stack(
                                   children: [
                                     if (controller.newsEverythingList[index].urlToImage != null)
-                                      Image.network(controller.newsEverythingList[index].urlToImage!),
+                                      Image.network(
+                                        width: 240,
+                                        height: 140,
+                                        controller.newsEverythingList[index].urlToImage!,
+                                      ),
+
+                                    Positioned.fill(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.black.withValues(alpha: 0.5),
+                                              Colors.black.withValues(alpha: 0.7),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               );
