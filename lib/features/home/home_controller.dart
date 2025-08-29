@@ -15,12 +15,13 @@ class HomeController extends ChangeNotifier {
   bool topHeadLineLoading = true;
   String? errorMessage;
 
+  String? selectedCategory;
 
   List<NewsArticleModel> newsTopHeadLineList = [];
   List<NewsArticleModel> newsEverythingList = [];
   ApiService apiService = ApiService();
 
-  getTopHeadLine() async {
+  getTopHeadLine({String? category}) async {
     try {
       Map<String, dynamic> result = await apiService.get(ApiConfig.topHeadlines, params: {"country": "us"});
 
@@ -48,6 +49,12 @@ class HomeController extends ChangeNotifier {
       everythingStatus = RequestStatusEnum.error;
     }
 
+    notifyListeners();
+  }
+
+  void updateSelectedCategory(String category) {
+    selectedCategory = category;
+    // getTopHeadLine(category: selectedCategory);
     notifyListeners();
   }
 }
