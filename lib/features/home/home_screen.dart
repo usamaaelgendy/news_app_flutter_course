@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:news_app/features/home/components/categories_list.dart';
 import 'package:news_app/features/home/components/trending_news.dart';
@@ -15,30 +17,97 @@ class HomeScreen extends StatelessWidget {
       child: Consumer<HomeController>(
         builder: (BuildContext context, controller, Widget? child) {
           return Scaffold(
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TrendingNews(),
-                  ViewAllComponent(title: 'Categories', titleColor: Color(0xFF141414), onTap: () {}),
-                  CategoriesList(),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.newsTopHeadLineList.length,
-                    padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(height: 20, width: 50, color: Colors.red),
-                      );
-                    },
-                  ),
-                ],
-              ),
+            body: CustomScrollView(
+              slivers: [
+                TrendingNews(),
+                SliverToBoxAdapter(
+                  child: ViewAllComponent(title: 'Categories', titleColor: Color(0xFF141414), onTap: () {}),
+                ),
+                CategoriesList(),
+                SliverList.builder(
+                  itemCount: controller.newsTopHeadLineList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final model = controller.newsTopHeadLineList[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(model.urlToImage ?? "", height: 80, width: 140, fit: BoxFit.cover),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  model.title,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  maxLines: 2,
+                                ),
+
+                                Row(
+                                  children: [
+                                    CircleAvatar(backgroundImage: NetworkImage(model.urlToImage ?? ""), radius: 10),
+                                    SizedBox(width: 6),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            (model.author ?? "").substring(0, min((model.author ?? "").length, 10)),
+                                            style: TextStyle(
+                                              color: Color(0xFF141414),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                            formatDateTime(model.publishedAt ?? ""),
+                                            style: TextStyle(
+                                              color: Color(0xFF141414),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           );
         },
       ),
     );
+  }
+
+  String formatDateTime(String? date) {
+    if (date == null) return "";
+    final diff = DateTime.now().difference(DateTime.parse(date));
+
+    if (diff.inMinutes < 60) {
+      return "${diff.inMinutes}m ago";
+    }
+    if (diff.inHours < 24) {
+      return "${diff.inHours}h ago";
+    }
+
+    return "${diff.inDays}d ago";
   }
 }
