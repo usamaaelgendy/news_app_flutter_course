@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
+import 'package:news_app/core/extensions/date_time_extension.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
 import 'package:news_app/features/home/home_controller.dart';
@@ -119,7 +120,7 @@ class TrendingNews extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Text(
-                                                    model.formatDateTime(),
+                                                    model.publishedAt.formatDateTime(),
                                                     style: TextStyle(
                                                       color: Color(0xFFFFFCFC),
                                                       fontWeight: FontWeight.w400,

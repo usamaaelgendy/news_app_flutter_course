@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:news_app/core/extensions/date_time_extension.dart';
 import 'package:news_app/features/home/components/categories_list.dart';
 import 'package:news_app/features/home/components/trending_news.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
@@ -51,7 +52,6 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   maxLines: 2,
                                 ),
-
                                 Row(
                                   children: [
                                     CircleAvatar(backgroundImage: NetworkImage(model.urlToImage ?? ""), radius: 10),
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                           SizedBox(width: 8),
                                           Text(
-                                            model.formatDateTime(),
+                                            model.publishedAt.formatDateTime(),
                                             style: TextStyle(
                                               color: Color(0xFF141414),
                                               fontSize: 12,
