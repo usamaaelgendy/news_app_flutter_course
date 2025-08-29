@@ -10,12 +10,7 @@ void main() async {
   await PreferencesManager().init();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (BuildContext context) {
-        return HomeController();
-      },
-      child: const MyApp(),
-    ),
+    const MyApp(),
   );
 }
 
