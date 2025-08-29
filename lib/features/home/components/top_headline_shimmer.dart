@@ -9,10 +9,13 @@ class TopHeadlineShimmer extends StatelessWidget {
     return SliverList.builder(
       itemCount: 10,
       itemBuilder: (BuildContext context, int index) {
-        return Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: Container(height: 180, color: Colors.white),
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(height: 80, color: Colors.white),
+          ),
         );
       },
     );
