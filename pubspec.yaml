@@ -38,6 +38,7 @@ dependencies:
   smooth_page_indicator: ^1.2.1
   http: ^1.4.0
   shared_preferences: ^2.5.3
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

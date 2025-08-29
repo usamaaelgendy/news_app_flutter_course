@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:news_app/core/extensions/date_time_extension.dart';
+import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -20,12 +21,10 @@ class TopHeadline extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
               child: Row(
                 children: [
-                  model.urlToImage != null
-                      ? ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(model.urlToImage ?? "", height: 80, width: 140, fit: BoxFit.cover),
-                      )
-                      : SizedBox(height: 80, width: 140),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: CustomCachedNetworkImage(imagePath: model.urlToImage ?? ""),
+                  ),
                   SizedBox(width: 8),
                   Expanded(
                     child: Column(

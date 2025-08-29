@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/extensions/date_time_extension.dart';
 import 'package:news_app/core/theme/light_color.dart';
+import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +62,11 @@ class TrendingNews extends StatelessWidget {
                                     child: Stack(
                                       children: [
                                         if (model.urlToImage != null)
-                                          Image.network(width: 240, height: 140, model.urlToImage!),
+                                          CustomCachedNetworkImage(
+                                            imagePath: model.urlToImage ?? "",
+                                            width: 240,
+                                            height: 140,
+                                          ),
 
                                         Positioned.fill(
                                           child: Container(
