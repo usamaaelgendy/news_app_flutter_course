@@ -23,7 +23,10 @@ class HomeController extends ChangeNotifier {
 
   getTopHeadLine({String? category}) async {
     try {
-      Map<String, dynamic> result = await apiService.get(ApiConfig.topHeadlines, params: {"country": "us"});
+      Map<String, dynamic> result = await apiService.get(
+        ApiConfig.topHeadlines,
+        params: {"country": "us", "category": selectedCategory},
+      );
 
       newsTopHeadLineList = (result["articles"] as List).map((e) => NewsArticleModel.fromJson(e)).toList();
       topHeadLineLoading = false;
@@ -54,7 +57,7 @@ class HomeController extends ChangeNotifier {
 
   void updateSelectedCategory(String category) {
     selectedCategory = category;
-    // getTopHeadLine(category: selectedCategory);
+    getTopHeadLine(category: selectedCategory);
     notifyListeners();
   }
 }

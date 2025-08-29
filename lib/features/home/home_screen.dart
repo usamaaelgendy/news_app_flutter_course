@@ -15,13 +15,26 @@ class HomeScreen extends StatelessWidget {
       child: Consumer<HomeController>(
         builder: (BuildContext context, controller, Widget? child) {
           return Scaffold(
-            body: Column(
-              children: [
-                TrendingNews(),
-                ViewAllComponent(title: 'Categories', titleColor: Color(0xFF141414), onTap: () {}),
-                CategoriesList(),
-
-              ],
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TrendingNews(),
+                  ViewAllComponent(title: 'Categories', titleColor: Color(0xFF141414), onTap: () {}),
+                  CategoriesList(),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.newsTopHeadLineList.length,
+                    padding: EdgeInsets.zero,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(height: 20, width: 50, color: Colors.red),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -29,4 +42,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
