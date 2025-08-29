@@ -7,10 +7,11 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(),
   scaffoldBackgroundColor: Color(0xFFf5f5f5),
   primaryColor: LightColors.primaryColor,
-  appBarTheme: AppBarTheme(backgroundColor: Color(0xFFFFFFFF)),
-  progressIndicatorTheme: ProgressIndicatorThemeData(
-    color: Colors.white
+  appBarTheme: AppBarTheme(
+    backgroundColor: Color(0xFFFFFFFF),
+    titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF141414)),
   ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.white),
   // appBarTheme: AppBarTheme(
   //   backgroundColor: Color(0xFFF6F7F9),
   //   titleTextStyle: TextStyle(
@@ -56,9 +57,7 @@ ThemeData lightTheme = ThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
     ),
   ),
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(foregroundColor: LightColors.primaryColor),
-  ),
+  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: LightColors.primaryColor)),
   // floatingActionButtonTheme: FloatingActionButtonThemeData(
   //   backgroundColor: Color(0xFF15B86C),
   //   foregroundColor: Color(0xFFFFFCFC),
@@ -110,39 +109,25 @@ ThemeData lightTheme = ThemeData(
   //   labelLarge: TextStyle(color: Colors.black, fontSize: 24),
   // ),
   inputDecorationTheme: InputDecorationTheme(
-    hintStyle: TextStyle(
-      color: Color(0xFF9E9E9E),
-    ),
+    hintStyle: TextStyle(color: Color(0xFF9E9E9E)),
     filled: true,
     fillColor: Color(0xFFFFFFFF),
     focusColor: Color(0xFFD1DAD6),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(
-        color: Colors.red,
-        width: 0.5,
-      ),
+      borderSide: BorderSide(color: Colors.red, width: 0.5),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(
-        color: Color(0xFFD1DAD6),
-        width: 0.5,
-      ),
+      borderSide: BorderSide(color: Color(0xFFD1DAD6), width: 0.5),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(
-        color: Color(0xFFD1DAD6),
-        width: 0.5,
-      ),
+      borderSide: BorderSide(color: Color(0xFFD1DAD6), width: 0.5),
     ),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(
-        color: Color(0xFFD1DAD6),
-        width: 0.5,
-      ),
+      borderSide: BorderSide(color: Color(0xFFD1DAD6), width: 0.5),
     ),
   ),
   // checkboxTheme: CheckboxThemeData(
