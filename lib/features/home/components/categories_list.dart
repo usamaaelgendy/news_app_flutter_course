@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/theme/light_color.dart';
+import 'package:news_app/features/home/categories_screen.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
 import 'package:news_app/features/home/home_controller.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,20 @@ class CategoriesList extends StatelessWidget {
         builder: (BuildContext context, controller, Widget? child) {
           return Column(
             children: [
-              ViewAllComponent(title: 'Categories', titleColor: Color(0xFF141414), onTap: () {}),
+              ViewAllComponent(
+                title: 'Categories',
+                titleColor: Color(0xFF141414),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return CategoriesScreen();
+                      },
+                    ),
+                  );
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 16),
                 child: SizedBox(
