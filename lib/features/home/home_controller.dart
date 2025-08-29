@@ -15,6 +15,7 @@ class HomeController extends ChangeNotifier {
   bool topHeadLineLoading = true;
   String? errorMessage;
 
+
   List<NewsArticleModel> newsTopHeadLineList = [];
   List<NewsArticleModel> newsEverythingList = [];
   ApiService apiService = ApiService();

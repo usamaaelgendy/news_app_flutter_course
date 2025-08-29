@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/features/home/components/categories_list.dart';
 import 'package:news_app/features/home/components/trending_news.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
 import 'package:news_app/features/home/home_controller.dart';
@@ -18,26 +19,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 TrendingNews(),
                 ViewAllComponent(title: 'Categories', titleColor: Color(0xFF141414), onTap: () {}),
+                CategoriesList(),
 
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 16),
-                  child: SizedBox(
-                    height: 30,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categories.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                          categories[index],
-                          style: TextStyle(color: Color(0xFF363636), fontSize: 16, fontWeight: FontWeight.w400),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: 12);
-                      },
-                    ),
-                  ),
-                ),
               ],
             ),
           );
@@ -47,4 +30,3 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-final List<String> categories = ["business", "entertainment", "general", "health", "science", "sports", "technology"];
