@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                           SizedBox(width: 8),
                                           Text(
-                                            formatDateTime(model.publishedAt ?? ""),
+                                            model.formatDateTime(),
                                             style: TextStyle(
                                               color: Color(0xFF141414),
                                               fontSize: 12,
@@ -95,19 +95,5 @@ class HomeScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  String formatDateTime(String? date) {
-    if (date == null) return "";
-    final diff = DateTime.now().difference(DateTime.parse(date));
-
-    if (diff.inMinutes < 60) {
-      return "${diff.inMinutes}m ago";
-    }
-    if (diff.inHours < 24) {
-      return "${diff.inHours}h ago";
-    }
-
-    return "${diff.inDays}d ago";
   }
 }

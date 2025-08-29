@@ -4,7 +4,7 @@ class NewsArticleModel {
   final String? description;
   final String? url;
   final String? urlToImage;
-  final String? publishedAt;
+  final DateTime publishedAt;
   final String? content;
 
   NewsArticleModel({
@@ -36,8 +36,21 @@ class NewsArticleModel {
       description: map['description'],
       url: map['url'],
       urlToImage: map['urlToImage'],
-      publishedAt: map['publishedAt'],
+      publishedAt: DateTime.tryParse(map['publishedAt']) ?? DateTime.now(),
       content: map['content'],
     );
+  }
+
+  String formatDateTime() {
+    final diff = DateTime.now().difference(publishedAt);
+
+    if (diff.inMinutes < 60) {
+      return "${diff.inMinutes}m ago";
+    }
+    if (diff.inHours < 24) {
+      return "${diff.inHours}h ago";
+    }
+
+    return "${diff.inDays}d ago";
   }
 }
