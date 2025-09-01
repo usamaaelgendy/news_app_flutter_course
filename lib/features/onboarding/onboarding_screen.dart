@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/onboarding/controller/onboarding_controller.dart';
@@ -32,25 +33,21 @@ class OnboardingScreen extends StatelessWidget {
             backgroundColor: Color(0xFFf5f5f5),
             actions: [
               Consumer<OnboardingController>(
-                builder: (
-                  BuildContext context,
-                  OnboardingController value,
-                  Widget? child,
-                ) {
+                builder: (BuildContext context, OnboardingController value, Widget? child) {
                   return value.isLastPage
                       ? SizedBox()
                       : TextButton(
                         onPressed: () {
                           _onFinish(context);
                         },
-                        child: Text('Skip', style: TextStyle(fontSize: 16)),
+                        child: Text('Skip', style: TextStyle(fontSize: AppSizes.sp16)),
                       );
                 },
               ),
             ],
           ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 16),
+            padding: EdgeInsets.symmetric(vertical: AppSizes.ph30, horizontal: AppSizes.pw16),
             child: Column(
               children: [
                 Expanded(
@@ -61,26 +58,25 @@ class OnboardingScreen extends StatelessWidget {
                     },
                     itemCount: OnboardingModel.onboardingList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final OnboardingModel model =
-                          OnboardingModel.onboardingList[index];
+                      final OnboardingModel model = OnboardingModel.onboardingList[index];
                       return Column(
                         children: [
                           Image.asset(model.image),
-                          SizedBox(height: 24),
+                          SizedBox(height: AppSizes.ph24),
                           Text(
                             model.title,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: AppSizes.sp20,
                               color: Color(0xFF4E4B66),
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: 12),
+                          SizedBox(height: AppSizes.ph12),
                           Text(
                             model.description,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: AppSizes.sp16,
                               color: Color(0xFF6E7191),
                               fontWeight: FontWeight.w400,
                             ),
@@ -93,11 +89,7 @@ class OnboardingScreen extends StatelessWidget {
                 ),
 
                 Consumer<OnboardingController>(
-                  builder: (
-                    BuildContext context,
-                    OnboardingController value,
-                    Widget? child,
-                  ) {
+                  builder: (BuildContext context, OnboardingController value, Widget? child) {
                     return SmoothPageIndicator(
                       controller: value.pageController,
                       count: 3,
@@ -105,13 +97,9 @@ class OnboardingScreen extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(height: 112),
+                SizedBox(height: AppSizes.ph112),
                 Consumer<OnboardingController>(
-                  builder: (
-                    BuildContext context,
-                    OnboardingController value,
-                    Widget? child,
-                  ) {
+                  builder: (BuildContext context, OnboardingController value, Widget? child) {
                     return ElevatedButton(
                       onPressed: () {
                         if (!value.isLastPage) {
@@ -123,9 +111,6 @@ class OnboardingScreen extends StatelessWidget {
                           _onFinish(context);
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(MediaQuery.of(context).size.width, 52),
-                      ),
                       child: Text(value.isLastPage ? 'Get Started' : 'Next'),
                     );
                   },

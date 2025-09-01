@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
-import 'package:news_app/features/home/home_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -18,8 +17,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final TextEditingController passwordController = TextEditingController();
 
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   String? errorMessage;
   bool isLoading = false;
@@ -41,10 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     } else {
       await PreferencesManager().setString("user_email", emailController.text);
-      await PreferencesManager().setString(
-        "user_password",
-        passwordController.text,
-      );
+      await PreferencesManager().setString("user_password", passwordController.text);
       await PreferencesManager().setBool("is_logged_in", true);
 
       setState(() {
@@ -68,11 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background_image.png"),
-          ),
-        ),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/background_image.png"))),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
@@ -81,14 +72,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Image.asset("assets/images/logo.png", height: 45),
-                ),
+                Center(child: Image.asset("assets/images/logo.png", height: 45)),
                 SizedBox(height: 40),
-                Text(
-                  "Welcome to Newts",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                ),
+                Text("Welcome to Newts", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 SizedBox(height: 24),
                 CustomTextFormField(
                   controller: emailController,
@@ -98,9 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (value == null || value.isEmpty) {
                       return "Please Enter Email";
                     }
-                    RegExp emailRegExp = RegExp(
-                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                    );
+                    RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
                     if (!emailRegExp.hasMatch(value)) {
                       return 'Please Enter Valid Email';
@@ -141,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 if (errorMessage != null)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(errorMessage! , style: TextStyle(color: Colors.red),),
+                    child: Text(errorMessage!, style: TextStyle(color: Colors.red)),
                   ),
 
                 SizedBox(height: 24),
@@ -154,10 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         register();
                       }
                     },
-                    child:
-                        isLoading
-                            ? CircularProgressIndicator()
-                            : Text("Sign Up"),
+                    child: isLoading ? CircularProgressIndicator() : Text("Sign Up"),
                   ),
                 ),
                 SizedBox(height: 24),
@@ -170,13 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Text(
-                        "Sign In",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 16,
-                        ),
-                      ),
+                      child: Text("Sign In", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16)),
                     ),
                   ],
                 ),
