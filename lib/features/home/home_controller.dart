@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/mixins/safe_notify_mixin.dart';
+import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/home/models/news_article_model.dart';
-import 'package:news_app/features/home/repos/news_repository.dart';
 
 class HomeController extends ChangeNotifier with SafeNotify {
   HomeController(this.newsRepository) {

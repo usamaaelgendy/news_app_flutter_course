@@ -5,7 +5,7 @@ import 'package:news_app/features/home/models/news_article_model.dart';
 abstract class BaseNewsRepository {
   Future<List<NewsArticleModel>> getTopHeadLine({String? selectedCategory = "general"});
 
-  Future<List<NewsArticleModel>> getEverything();
+  Future<List<NewsArticleModel>> getEverything({String? query = "news"});
 }
 
 class NewsRepository extends BaseNewsRepository {
@@ -24,8 +24,8 @@ class NewsRepository extends BaseNewsRepository {
   }
 
   @override
-  Future<List<NewsArticleModel>> getEverything() async {
-    Map<String, dynamic> result = await apiService.get(ApiConfig.everything, params: {"q": "news"});
+  Future<List<NewsArticleModel>> getEverything({String? query = "news"}) async {
+    Map<String, dynamic> result = await apiService.get(ApiConfig.everything, params: {"q": query});
 
     return (result["articles"] as List).map((e) => NewsArticleModel.fromJson(e)).toList();
   }

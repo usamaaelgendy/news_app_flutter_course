@@ -78,5 +78,6 @@ class AppSizes {
   static final double r16 = 16.r;
   static final double r20 = 20.r;
   static final double r26 = 26.r;
+  static final double r30 = 30.r;
   static final double r60 = 60.r;
 }
