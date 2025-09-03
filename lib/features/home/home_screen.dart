@@ -3,6 +3,7 @@ import 'package:news_app/features/home/components/categories_list.dart';
 import 'package:news_app/features/home/components/top_headline.dart';
 import 'package:news_app/features/home/components/trending_news.dart';
 import 'package:news_app/features/home/home_controller.dart';
+import 'package:news_app/features/home/repos/news_repository.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (BuildContext context) {
-        return HomeController();
+        return HomeController(NewsRepository());
       },
       child: Consumer<HomeController>(
         builder: (BuildContext context, controller, Widget? child) {

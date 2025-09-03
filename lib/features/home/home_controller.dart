@@ -4,7 +4,7 @@ import 'package:news_app/features/home/models/news_article_model.dart';
 import 'package:news_app/features/home/repos/news_repository.dart';
 
 class HomeController extends ChangeNotifier {
-  HomeController() {
+  HomeController(this.newsRepository) {
     getTopHeadLine();
     getEverything();
   }
@@ -19,7 +19,7 @@ class HomeController extends ChangeNotifier {
   List<NewsArticleModel> newsTopHeadLineList = [];
   List<NewsArticleModel> newsEverythingList = [];
 
-  final NewsRepository newsRepository = NewsRepository();
+  final NewsRepository newsRepository;
 
   getTopHeadLine({String? category}) async {
     try {
