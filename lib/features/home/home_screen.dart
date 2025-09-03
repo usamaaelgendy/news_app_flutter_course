@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/datasource/remote_data/api_service.dart';
 import 'package:news_app/features/home/components/categories_list.dart';
 import 'package:news_app/features/home/components/top_headline.dart';
 import 'package:news_app/features/home/components/trending_news.dart';
@@ -13,7 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (BuildContext context) {
-        return HomeController(NewsRepository());
+        return HomeController(NewsRepository(ApiService()));
       },
       child: Consumer<HomeController>(
         builder: (BuildContext context, controller, Widget? child) {
