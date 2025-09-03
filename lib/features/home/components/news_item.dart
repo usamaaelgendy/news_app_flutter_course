@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/extensions/date_time_extension.dart';
 import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
@@ -14,14 +15,14 @@ class NewsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: AppSizes.pw16, vertical: AppSizes.ph8),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSizes.r8),
             child: CustomCachedNetworkImage(imagePath: model.urlToImage ?? ""),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: AppSizes.pw8),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,14 +30,18 @@ class NewsItem extends StatelessWidget {
               children: [
                 Text(
                   model.title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, overflow: TextOverflow.ellipsis),
+                  style: TextStyle(
+                    fontSize: AppSizes.sp16,
+                    fontWeight: FontWeight.w400,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   maxLines: 2,
                 ),
                 Row(
                   children: [
                     if (model.urlToImage != null)
-                      CircleAvatar(backgroundImage: NetworkImage(model.urlToImage!), radius: 10),
-                    SizedBox(width: 6),
+                      CircleAvatar(backgroundImage: NetworkImage(model.urlToImage!), radius: AppSizes.r10),
+                    SizedBox(width: AppSizes.pw6),
                     Expanded(
                       child: Row(
                         children: [
@@ -44,11 +49,11 @@ class NewsItem extends StatelessWidget {
                             (model.author ?? "").substring(0, min((model.author ?? "").length, 10)),
                             style: TextStyle(color: Color(0xFF141414), fontSize: 12, fontWeight: FontWeight.w400),
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(width: AppSizes.pw8),
                           Expanded(
                             child: Text(
                               model.publishedAt.formatDateTime(),
-                              style: TextStyle(color: Color(0xFF141414), fontSize: 12, fontWeight: FontWeight.w400),
+                              style: TextStyle(color: Color(0xFF141414), fontSize: AppSizes.sp12, fontWeight: FontWeight.w400),
                             ),
                           ),
                           CustomSvgPicture.withoutColor(path: 'assets/images/bookmark.svg'),

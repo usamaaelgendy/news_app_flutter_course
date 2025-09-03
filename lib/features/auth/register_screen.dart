@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/main/main_screen.dart';
@@ -39,7 +40,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     } else {
       await PreferencesManager().setString("user_email", emailController.text);
-      await PreferencesManager().setString("user_password", passwordController.text);
+      await PreferencesManager().setString(
+          "user_password", passwordController.text);
       await PreferencesManager().setBool("is_logged_in", true);
 
       setState(() {
@@ -63,19 +65,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/background_image.png"))),
+        decoration: BoxDecoration(image: DecorationImage(
+            image: AssetImage("assets/images/background_image.png"))),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(AppSizes.r16),
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Image.asset("assets/images/logo.png", height: 45)),
-                SizedBox(height: 40),
-                Text("Welcome to Newts", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
-                SizedBox(height: 24),
+                Center(child: Image.asset(
+                    "assets/images/logo.png", height: AppSizes.h45)),
+                SizedBox(height: AppSizes.ph40),
+                Text("Welcome to Newts", style: TextStyle(
+                    fontSize: AppSizes.sp20, fontWeight: FontWeight.w700)),
+                SizedBox(height: AppSizes.ph24),
                 CustomTextFormField(
                   controller: emailController,
                   hintText: 'usama@gmail.com',
@@ -84,7 +89,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (value == null || value.isEmpty) {
                       return "Please Enter Email";
                     }
-                    RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                    RegExp emailRegExp = RegExp(
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
                     if (!emailRegExp.hasMatch(value)) {
                       return 'Please Enter Valid Email';
@@ -93,7 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                   },
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: AppSizes.ph24),
                 CustomTextFormField(
                   controller: passwordController,
                   hintText: '*************',
@@ -107,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: AppSizes.ph24),
                 CustomTextFormField(
                   controller: confirmPasswordController,
                   hintText: '*************',
@@ -124,34 +130,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 if (errorMessage != null)
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(errorMessage!, style: TextStyle(color: Colors.red)),
+                    padding: EdgeInsets.symmetric(vertical: AppSizes.ph8),
+                    child: Text(
+                        errorMessage!, style: TextStyle(color: Colors.red)),
                   ),
 
-                SizedBox(height: 24),
+                SizedBox(height: AppSizes.ph24),
                 SizedBox(
                   width: double.infinity,
-                  height: 48,
+                  height: AppSizes.h48,
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         register();
                       }
                     },
-                    child: isLoading ? CircularProgressIndicator() : Text("Sign Up"),
+                    child: isLoading ? CircularProgressIndicator() : Text(
+                        "Sign Up"),
                   ),
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: AppSizes.ph24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Have an account ?", style: TextStyle(fontSize: 14)),
-                    SizedBox(width: 8),
+                    Text("Have an account ?", style: TextStyle(fontSize: AppSizes.sp14)),
+                    SizedBox(width: AppSizes.pw8),
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Text("Sign In", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16)),
+                      child: Text("Sign In", style: TextStyle(color: Theme
+                          .of(context)
+                          .primaryColor, fontSize: AppSizes.sp16)),
                     ),
                   ],
                 ),

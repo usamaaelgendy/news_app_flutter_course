@@ -10,7 +10,7 @@ ThemeData lightTheme = ThemeData(
   primaryColor: LightColors.primaryColor,
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xFFFFFFFF),
-    titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF141414)),
+    titleTextStyle: TextStyle(fontSize: AppSizes.sp16, fontWeight: FontWeight.w700, color: Color(0xFF141414)),
   ),
   progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.white),
   // appBarTheme: AppBarTheme(
@@ -54,9 +54,9 @@ ThemeData lightTheme = ThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: LightColors.primaryColor,
       foregroundColor: Color(0xFFFFFCFC),
-      textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+      textStyle: TextStyle(fontSize: AppSizes.sp16, fontWeight: FontWeight.w400),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-        minimumSize: Size.fromHeight(AppSizes.h52)
+      minimumSize: Size.fromHeight(AppSizes.h52),
     ),
   ),
   textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: LightColors.primaryColor)),
