@@ -19,7 +19,7 @@ class HomeController extends ChangeNotifier {
   List<NewsArticleModel> newsTopHeadLineList = [];
   List<NewsArticleModel> newsEverythingList = [];
 
-  final NewsRepository newsRepository;
+  final BaseNewsRepository newsRepository;
 
   getTopHeadLine({String? category}) async {
     try {
