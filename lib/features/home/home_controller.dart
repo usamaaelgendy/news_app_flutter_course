@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:news_app/core/datasource/remote_data/api_config.dart';
-import 'package:news_app/core/datasource/remote_data/api_service.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/features/home/models/news_article_model.dart';
+import 'package:news_app/features/home/repos/news_repository.dart';
 
 class HomeController extends ChangeNotifier {
   HomeController() {
@@ -19,18 +18,16 @@ class HomeController extends ChangeNotifier {
 
   List<NewsArticleModel> newsTopHeadLineList = [];
   List<NewsArticleModel> newsEverythingList = [];
-  ApiService apiService = ApiService();
+
+  final NewsRepository newsRepository = NewsRepository();
 
   getTopHeadLine({String? category}) async {
     try {
       newsTopHeadLineStatus = RequestStatusEnum.loading;
       notifyListeners();
-      Map<String, dynamic> result = await apiService.get(
-        ApiConfig.topHeadlines,
-        params: {"country": "us", "category": selectedCategory},
-      );
 
-      newsTopHeadLineList = (result["articles"] as List).map((e) => NewsArticleModel.fromJson(e)).toList();
+      newsTopHeadLineList = await newsRepository.getTopHeadLine(selectedCategory: selectedCategory);
+
       newsTopHeadLineStatus = RequestStatusEnum.loaded;
       errorMessage = null;
     } catch (e) {
@@ -43,9 +40,7 @@ class HomeController extends ChangeNotifier {
 
   getEverything() async {
     try {
-      Map<String, dynamic> result = await apiService.get(ApiConfig.everything, params: {"q": "news"});
-
-      newsEverythingList = (result["articles"] as List).map((e) => NewsArticleModel.fromJson(e)).toList();
+      newsEverythingList = await newsRepository.getEverything();
 
       everythingStatus = RequestStatusEnum.loaded;
       errorMessage = null;
