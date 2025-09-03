@@ -9,6 +9,7 @@ class HomeController extends ChangeNotifier {
     getEverything();
   }
 
+  bool isDispose = false;
   RequestStatusEnum everythingStatus = RequestStatusEnum.loading;
   RequestStatusEnum newsTopHeadLineStatus = RequestStatusEnum.loading;
 
@@ -24,7 +25,7 @@ class HomeController extends ChangeNotifier {
   getTopHeadLine({String? category}) async {
     try {
       newsTopHeadLineStatus = RequestStatusEnum.loading;
-      notifyListeners();
+      notify();
 
       newsTopHeadLineList = await newsRepository.getTopHeadLine(selectedCategory: selectedCategory);
 
@@ -35,7 +36,7 @@ class HomeController extends ChangeNotifier {
       errorMessage = e.toString();
     }
 
-    notifyListeners();
+    notify();
   }
 
   getEverything() async {
@@ -49,12 +50,23 @@ class HomeController extends ChangeNotifier {
       everythingStatus = RequestStatusEnum.error;
     }
 
-    notifyListeners();
+    notify();
   }
 
   void updateSelectedCategory(String category) {
     selectedCategory = category;
     getTopHeadLine(category: selectedCategory);
-    notifyListeners();
+    notify();
+  }
+
+
+  notify() {
+    if (!isDispose) notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    isDispose = true;
+    super.dispose();
   }
 }
