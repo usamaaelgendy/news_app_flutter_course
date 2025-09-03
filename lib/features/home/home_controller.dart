@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
+import 'package:news_app/core/mixins/safe_notify_mixin.dart';
 import 'package:news_app/features/home/models/news_article_model.dart';
 import 'package:news_app/features/home/repos/news_repository.dart';
 
-class HomeController extends ChangeNotifier {
+class HomeController extends ChangeNotifier with SafeNotify {
   HomeController(this.newsRepository) {
     getTopHeadLine();
     getEverything();
   }
 
-  bool isDispose = false;
   RequestStatusEnum everythingStatus = RequestStatusEnum.loading;
   RequestStatusEnum newsTopHeadLineStatus = RequestStatusEnum.loading;
 
@@ -25,7 +25,7 @@ class HomeController extends ChangeNotifier {
   getTopHeadLine({String? category}) async {
     try {
       newsTopHeadLineStatus = RequestStatusEnum.loading;
-      notify();
+      safeNotify();
 
       newsTopHeadLineList = await newsRepository.getTopHeadLine(selectedCategory: selectedCategory);
 
@@ -36,7 +36,7 @@ class HomeController extends ChangeNotifier {
       errorMessage = e.toString();
     }
 
-    notify();
+    safeNotify();
   }
 
   getEverything() async {
@@ -50,23 +50,12 @@ class HomeController extends ChangeNotifier {
       everythingStatus = RequestStatusEnum.error;
     }
 
-    notify();
+    safeNotify();
   }
 
   void updateSelectedCategory(String category) {
     selectedCategory = category;
     getTopHeadLine(category: selectedCategory);
-    notify();
-  }
-
-
-  notify() {
-    if (!isDispose) notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    isDispose = true;
-    super.dispose();
+    safeNotify();
   }
 }
