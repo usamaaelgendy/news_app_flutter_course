@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
+import 'package:news_app/core/theme/light_color.dart';
+import 'package:news_app/core/widgets/custom_svg_picture.dart';
+import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/profile/profile_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -22,42 +25,64 @@ class ProfileScreen extends StatelessWidget {
             child: Consumer<ProfileController>(
               builder: (BuildContext context, ProfileController controller, Widget? child) {
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        CircleAvatar(
-                          backgroundImage:
-                              controller.selectedImage == null
-                                  ? AssetImage("assets/images/person.png")
-                                  : FileImage(File(controller.selectedImage!.path)),
-                          radius: AppSizes.r60,
-                          backgroundColor: Colors.transparent,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            showImageSourceDialog(context);
-                          },
-                          child: Container(
-                            height: AppSizes.w45,
-                            width: AppSizes.h45,
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
-                            child: Icon(Icons.camera_alt),
+                    Center(
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          CircleAvatar(
+                            backgroundImage:
+                                controller.selectedImage == null
+                                    ? AssetImage("assets/images/person.png")
+                                    : FileImage(File(controller.selectedImage!.path)),
+                            radius: AppSizes.r60,
+                            backgroundColor: Colors.transparent,
                           ),
-                        ),
-                      ],
+                          GestureDetector(
+                            onTap: () {
+                              showImageSourceDialog(context);
+                            },
+                            child: Container(
+                              height: AppSizes.w45,
+                              width: AppSizes.h45,
+                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
+                              child: Icon(Icons.camera_alt),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: AppSizes.pw8),
-                    Text(
-                      PreferencesManager().getString("user_email") ?? "",
-                      style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
+                    SizedBox(height: AppSizes.ph8),
+                    Center(
+                      child: Text(
+                        PreferencesManager().getString("user_email") ?? "",
+                        style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
+                      ),
                     ),
 
-                    ListTile(
-                      title: Text("Personal Info"),
-                      leading: Icon(Icons.person),
-                      contentPadding: EdgeInsets.zero,
+                    SizedBox(height: AppSizes.ph16),
+
+                    _buildProfileItem("Personal Info", "assets/images/profile.svg", () {}),
+                    _buildProfileItem("Language", "assets/images/language.svg", () {}),
+                    _buildProfileItem("Country", "assets/images/country.svg", () {}),
+                    _buildProfileItem("Terms & Conditions", "assets/images/terms_conditions.svg", () {}),
+                    _buildProfileItem(
+                      "Logout",
+                      "assets/images/logout.svg",
+                      () async {
+                        await PreferencesManager().clear();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return LoginScreen();
+                            },
+                          ),
+                        );
+                      },
+                      color: LightColors.primaryColor,
+                      withDivider: false,
                     ),
                   ],
                 );
@@ -97,6 +122,32 @@ class ProfileScreen extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildProfileItem(
+    String title,
+    String path,
+    Function onTap, {
+    Color color = const Color(0xFF161F1B),
+    bool withDivider = true,
+  }) {
+    return Column(
+      children: [
+        ListTile(
+          onTap: () => onTap(),
+          title: Text(title, style: TextStyle(color: color, fontWeight: FontWeight.w400, fontSize: AppSizes.sp16)),
+          leading: CustomSvgPicture.withoutColor(path: path),
+          trailing: CustomSvgPicture.withoutColor(
+            path: "assets/images/arrow.svg",
+            height: AppSizes.w16,
+            width: AppSizes.w16,
+          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: AppSizes.pw8),
+        ),
+
+        if (withDivider) Divider(color: Colors.grey.shade500),
+      ],
     );
   }
 }
