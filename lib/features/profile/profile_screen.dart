@@ -56,7 +56,7 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(height: AppSizes.ph8),
                     Center(
                       child: Text(
-                        PreferencesManager().getString("user_email") ?? "",
+                        PreferencesManager().getString("username") ?? "",
                         style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
                       ),
                     ),
