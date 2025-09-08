@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
@@ -17,22 +18,15 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ProfileController>(
-      create: (BuildContext context) => ProfileController(),
+      create: (BuildContext context) => ProfileController()..getUserData(),
       child: Scaffold(
         appBar: AppBar(title: Text("Profile"), centerTitle: true),
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSizes.h24,
-              horizontal: AppSizes.w16,
-            ),
-            child: Consumer<ProfileController>(
-              builder: (
-                BuildContext context,
-                ProfileController controller,
-                Widget? child,
-              ) {
-                return Column(
+        body: Padding(
+          padding: EdgeInsets.symmetric(vertical: AppSizes.h24, horizontal: AppSizes.w16),
+          child: Consumer<ProfileController>(
+            builder: (BuildContext context, ProfileController controller, Widget? child) {
+              return SingleChildScrollView(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
@@ -85,13 +79,20 @@ class ProfileScreen extends StatelessWidget {
                           builder: (BuildContext context) {
                             return ProfileInfoBottomSheet();
                           },
-                        ).then((value){
+                        ).then((value) {
                           controller.getUserData();
                         });
                       },
                     ),
                     _buildProfileItem("Language", "assets/images/language.svg", () {}),
-                    _buildProfileItem("Country", "assets/images/country.svg", () {}),
+                    _buildProfileItem(controller.countryName ?? "Country", "assets/images/country.svg", () {
+                      showCountryPicker(
+                        context: context,
+                        onSelect: (Country country) {
+                          controller.saveCountry(country);
+                        },
+                      );
+                    }),
                     _buildProfileItem(
                       "Terms & Conditions",
                       "assets/images/terms_conditions.svg",
@@ -115,9 +116,9 @@ class ProfileScreen extends StatelessWidget {
                       withDivider: false,
                     ),
                   ],
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),
