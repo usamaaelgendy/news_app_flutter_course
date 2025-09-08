@@ -67,7 +67,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/background_image.png"))),
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage("assets/images/background_image.png")),
+        ),
         child: Padding(
           padding: EdgeInsets.all(AppSizes.r16),
           child: Form(
@@ -77,9 +79,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(child: Image.asset("assets/images/logo.png", height: AppSizes.h45)),
+                  SizedBox(height: AppSizes.h80),
+                  Center(
+                    child: Image.asset("assets/images/logo.png", height: AppSizes.h45),
+                  ),
                   SizedBox(height: AppSizes.ph40),
-                  Text("Welcome to Newts", style: TextStyle(fontSize: AppSizes.sp20, fontWeight: FontWeight.w700)),
+                  Text(
+                    "Welcome to Newts",
+                    style: TextStyle(
+                      fontSize: AppSizes.sp20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   SizedBox(height: AppSizes.ph24),
                   CustomTextFormField(
                     controller: usernameController,
@@ -89,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return "Please Enter User Name";
                       }
-              
+
                       return null;
                     },
                   ),
@@ -102,8 +113,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Email";
                       }
-                      RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-              
+                      RegExp emailRegExp = RegExp(
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                      );
+
                       if (!emailRegExp.hasMatch(value)) {
                         return 'Please Enter Valid Email';
                       } else {
@@ -121,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Password";
                       }
-              
+
                       return null;
                     },
                   ),
@@ -135,17 +148,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Password";
                       }
-              
+
                       return null;
                     },
                   ),
-              
+
                   if (errorMessage != null)
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: AppSizes.ph8),
                       child: Text(errorMessage!, style: TextStyle(color: Colors.red)),
                     ),
-              
+
                   SizedBox(height: AppSizes.ph24),
                   SizedBox(
                     width: double.infinity,
@@ -163,7 +176,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Have an account ?", style: TextStyle(fontSize: AppSizes.sp14)),
+                      Text(
+                        "Have an account ?",
+                        style: TextStyle(fontSize: AppSizes.sp14),
+                      ),
                       SizedBox(width: AppSizes.pw8),
                       GestureDetector(
                         onTap: () {
@@ -171,7 +187,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         child: Text(
                           "Sign In",
-                          style: TextStyle(color: Theme.of(context).primaryColor, fontSize: AppSizes.sp16),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: AppSizes.sp16,
+                          ),
                         ),
                       ),
                     ],

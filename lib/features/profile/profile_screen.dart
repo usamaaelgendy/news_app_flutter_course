@@ -7,6 +7,7 @@ import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
 import 'package:news_app/features/auth/login_screen.dart';
+import 'package:news_app/features/profile/bottom_sheet/profile_info_bottom_sheet.dart';
 import 'package:news_app/features/profile/profile_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -21,9 +22,16 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(title: Text("Profile"), centerTitle: true),
         body: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSizes.h24, horizontal: AppSizes.w16),
+            padding: EdgeInsets.symmetric(
+              vertical: AppSizes.h24,
+              horizontal: AppSizes.w16,
+            ),
             child: Consumer<ProfileController>(
-              builder: (BuildContext context, ProfileController controller, Widget? child) {
+              builder: (
+                BuildContext context,
+                ProfileController controller,
+                Widget? child,
+              ) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -46,7 +54,10 @@ class ProfileScreen extends StatelessWidget {
                             child: Container(
                               height: AppSizes.w45,
                               width: AppSizes.h45,
-                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
                               child: Icon(Icons.camera_alt),
                             ),
                           ),
@@ -63,10 +74,29 @@ class ProfileScreen extends StatelessWidget {
 
                     SizedBox(height: AppSizes.ph16),
 
-                    _buildProfileItem("Personal Info", "assets/images/profile.svg", () {}),
+                    _buildProfileItem(
+                      "Personal Info",
+                      "assets/images/profile.svg",
+                      () async {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (BuildContext context) {
+                            return ProfileInfoBottomSheet();
+                          },
+                        ).then((value){
+                          controller.getUserData();
+                        });
+                      },
+                    ),
                     _buildProfileItem("Language", "assets/images/language.svg", () {}),
                     _buildProfileItem("Country", "assets/images/country.svg", () {}),
-                    _buildProfileItem("Terms & Conditions", "assets/images/terms_conditions.svg", () {}),
+                    _buildProfileItem(
+                      "Terms & Conditions",
+                      "assets/images/terms_conditions.svg",
+                      () {},
+                    ),
                     _buildProfileItem(
                       "Logout",
                       "assets/images/logout.svg",
@@ -109,7 +139,13 @@ class ProfileScreen extends StatelessWidget {
                 controller.pickImage(ImageSource.camera);
               },
               padding: EdgeInsets.all(AppSizes.pw16),
-              child: Row(children: [Icon(Icons.camera_alt), SizedBox(width: AppSizes.pw8), Text("Camera")]),
+              child: Row(
+                children: [
+                  Icon(Icons.camera_alt),
+                  SizedBox(width: AppSizes.pw8),
+                  Text("Camera"),
+                ],
+              ),
             ),
             SimpleDialogOption(
               onPressed: () {
@@ -117,7 +153,13 @@ class ProfileScreen extends StatelessWidget {
                 controller.pickImage(ImageSource.gallery);
               },
               padding: EdgeInsets.all(AppSizes.pw16),
-              child: Row(children: [Icon(Icons.photo_library), SizedBox(width: AppSizes.pw8), Text("Galley")]),
+              child: Row(
+                children: [
+                  Icon(Icons.photo_library),
+                  SizedBox(width: AppSizes.pw8),
+                  Text("Galley"),
+                ],
+              ),
             ),
           ],
         );
@@ -136,7 +178,14 @@ class ProfileScreen extends StatelessWidget {
       children: [
         ListTile(
           onTap: () => onTap(),
-          title: Text(title, style: TextStyle(color: color, fontWeight: FontWeight.w400, fontSize: AppSizes.sp16)),
+          title: Text(
+            title,
+            style: TextStyle(
+              color: color,
+              fontWeight: FontWeight.w400,
+              fontSize: AppSizes.sp16,
+            ),
+          ),
           leading: CustomSvgPicture.withoutColor(path: path),
           trailing: CustomSvgPicture.withoutColor(
             path: "assets/images/arrow.svg",

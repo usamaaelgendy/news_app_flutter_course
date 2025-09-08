@@ -40,6 +40,7 @@ class AppSizes {
   static final double w12 = 12.w;
   static final double w16 = 16.w;
   static final double w24 = 24.w;
+  static final double w32 = 32.w;
   static final double w42 = 42.w;
   static final double w45 = 45.w;
   static final double w48 = 48.w;
