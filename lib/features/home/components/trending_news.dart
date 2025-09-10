@@ -4,6 +4,7 @@ import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/extensions/date_time_extension.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_cached_network_image.dart';
+import 'package:news_app/features/details/news_details_screen.dart';
 import 'package:news_app/features/home/components/trending_news_shimmer.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
 import 'package:news_app/features/home/home_controller.dart';
@@ -61,89 +62,96 @@ class TrendingNews extends StatelessWidget {
                               separatorBuilder: (BuildContext context, int index) => SizedBox(width: AppSizes.pw12),
                               itemBuilder: (BuildContext context, int index) {
                                 final model = controller.newsEverythingList[index];
-                                return SizedBox(
-                                  width: 240,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(AppSizes.r12),
-                                    child: Stack(
-                                      children: [
-                                        if (model.urlToImage != null)
-                                          CustomCachedNetworkImage(
-                                            imagePath: model.urlToImage ?? "",
-                                            width: AppSizes.w240,
-                                            height: AppSizes.h140,
-                                          ),
-
-                                        Positioned.fill(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                                colors: [
-                                                  Colors.black.withValues(alpha: 0.5),
-                                                  Colors.black.withValues(alpha: 0.7),
-                                                ],
+                                return GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) { 
+                                      return NewsDetailsScreen(model: model,);
+                                    }));
+                                  },
+                                  child: SizedBox(
+                                    width: 240,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(AppSizes.r12),
+                                      child: Stack(
+                                        children: [
+                                          if (model.urlToImage != null)
+                                            CustomCachedNetworkImage(
+                                              imagePath: model.urlToImage ?? "",
+                                              width: AppSizes.w240,
+                                              height: AppSizes.h140,
+                                            ),
+                                  
+                                          Positioned.fill(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.black.withValues(alpha: 0.5),
+                                                    Colors.black.withValues(alpha: 0.7),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-
-                                        Positioned(
-                                          bottom: AppSizes.ph12,
-                                          right: AppSizes.pw12,
-                                          left: AppSizes.pw12,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                model.title,
-                                                style: TextStyle(
-                                                  color: Color(0xFFFFFCFC),
-                                                  fontSize: AppSizes.sp14,
-                                                  fontWeight: FontWeight.w700,
+                                  
+                                          Positioned(
+                                            bottom: AppSizes.ph12,
+                                            right: AppSizes.pw12,
+                                            left: AppSizes.pw12,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  model.title,
+                                                  style: TextStyle(
+                                                    color: Color(0xFFFFFCFC),
+                                                    fontSize: AppSizes.sp14,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                  maxLines: 2,
                                                 ),
-                                                maxLines: 2,
-                                              ),
-                                              SizedBox(height: AppSizes.ph6),
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Row(
-                                                      children: [
-                                                        CircleAvatar(
-                                                          backgroundImage: NetworkImage(model.urlToImage.toString()),
-                                                          radius: AppSizes.r10,
-                                                        ),
-                                                        SizedBox(width: AppSizes.pw6),
-                                                        Expanded(
-                                                          child: Text(
-                                                            model.author ?? "",
-                                                            style: TextStyle(
-                                                              color: Color(0xFFFFFCFC),
-                                                              fontSize: AppSizes.sp12,
-                                                              fontWeight: FontWeight.w400,
-                                                            ),
-                                                            maxLines: 1,
+                                                SizedBox(height: AppSizes.ph6),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Row(
+                                                        children: [
+                                                          CircleAvatar(
+                                                            backgroundImage: NetworkImage(model.urlToImage.toString()),
+                                                            radius: AppSizes.r10,
                                                           ),
-                                                        ),
-                                                      ],
+                                                          SizedBox(width: AppSizes.pw6),
+                                                          Expanded(
+                                                            child: Text(
+                                                              model.author ?? "",
+                                                              style: TextStyle(
+                                                                color: Color(0xFFFFFCFC),
+                                                                fontSize: AppSizes.sp12,
+                                                                fontWeight: FontWeight.w400,
+                                                              ),
+                                                              maxLines: 1,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    model.publishedAt.formatDateTime(),
-                                                    style: TextStyle(
-                                                      color: Color(0xFFFFFCFC),
-                                                      fontWeight: FontWeight.w400,
-                                                      fontSize: AppSizes.sp14,
+                                                    Text(
+                                                      model.publishedAt.formatDateTime(),
+                                                      style: TextStyle(
+                                                        color: Color(0xFFFFFCFC),
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: AppSizes.sp14,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

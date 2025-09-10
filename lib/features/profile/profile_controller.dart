@@ -19,8 +19,8 @@ class ProfileController extends ChangeNotifier with SafeNotify {
 
   getUserData() {
     userName = PreferencesManager().getString("username") ?? "";
-    countryName = PreferencesManager().getString("country_name") ?? "";
-    countryCode = PreferencesManager().getString("country_code") ?? "";
+    countryName = PreferencesManager().getString("country_name");
+    countryCode = PreferencesManager().getString("country_code");
     safeNotify();
   }
 
