@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/core/widgets/custom_svg_picture.dart';
 import 'package:news_app/features/auth/login_screen.dart';
@@ -61,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(height: AppSizes.ph8),
                     Center(
                       child: Text(
-                        PreferencesManager().getString("username") ?? "",
+                        controller.userName ?? "",
                         style: TextStyle(color: Colors.black, fontSize: AppSizes.sp16),
                       ),
                     ),
@@ -102,6 +103,9 @@ class ProfileScreen extends StatelessWidget {
                       "Logout",
                       "assets/images/logout.svg",
                       () async {
+                        // Clear user data from Hive
+                        await UserRepository().delete();
+                        // Clear login flags from SharedPreferences
                         await PreferencesManager().clear();
                         Navigator.pushReplacement(
                           context,
