@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/main/main_screen.dart';
 
@@ -31,34 +32,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isLoading = true;
     });
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
 
-    final savedEmail = PreferencesManager().getString("user_email");
+    final String? error = await UserRepository().signUp(
+      name: usernameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+    );
 
-    if (savedEmail != null && savedEmail == emailController.text.trim()) {
+    if (error != null) {
       setState(() {
-        errorMessage = "User Already Registered";
+        errorMessage = error;
         isLoading = false;
       });
-    } else {
-      await PreferencesManager().setString("username", usernameController.text);
-      await PreferencesManager().setString("user_email", emailController.text);
-      await PreferencesManager().setString("user_password", passwordController.text);
-      await PreferencesManager().setBool("is_logged_in", true);
-
-      setState(() {
-        isLoading = false;
-      });
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) {
-            return MainScreen();
-          },
-        ),
-      );
+      return;
     }
+    await PreferencesManager().setBool("is_logged_in", true);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return const MainScreen();
+        },
+      ),
+    );
   }
 
   @override
@@ -67,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage("assets/images/background_image.png")),
         ),
         child: Padding(
@@ -156,7 +158,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (errorMessage != null)
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: AppSizes.ph8),
-                        child: Text(errorMessage!, style: TextStyle(color: Colors.red)),
+                        child: Text(
+                          errorMessage!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
                       ),
 
                     SizedBox(height: AppSizes.ph24),
@@ -169,7 +174,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             register();
                           }
                         },
-                        child: isLoading ? CircularProgressIndicator() : Text("Sign Up"),
+                        child:
+                            isLoading
+                                ? const CircularProgressIndicator()
+                                : const Text("Sign Up"),
                       ),
                     ),
                     SizedBox(height: AppSizes.ph24),

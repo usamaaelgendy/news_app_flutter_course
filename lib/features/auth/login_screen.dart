@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
+import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/register_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
@@ -28,22 +29,16 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
     });
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
 
-    final savedEmail = PreferencesManager().getString("user_email");
-    final savedPassword = PreferencesManager().getString("user_password");
+    final String? error = UserRepository().login(
+      emailController.text,
+      passwordController.text,
+    );
 
-    if (savedEmail == null || savedPassword == null) {
+    if (error != null) {
       setState(() {
-        errorMessage = "No Account Found Please Register First";
-        isLoading = false;
-      });
-      return;
-    }
-
-    if (savedEmail != emailController.text || savedPassword != passwordController.text) {
-      setState(() {
-        errorMessage = "Incorrect Email or Password";
+        errorMessage = error;
         isLoading = false;
       });
       return;
@@ -55,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return MainScreen();
+          return const MainScreen();
         },
       ),
     );
@@ -73,7 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/background_image.png"))),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background_image.png"),
+            ),
+          ),
           child: Padding(
             padding: EdgeInsets.all(AppSizes.r16),
             child: Form(
@@ -83,10 +82,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: Image.asset("assets/images/logo.png", height: AppSizes.h45)),
+                      Center(
+                        child: Image.asset(
+                          "assets/images/logo.png",
+                          height: AppSizes.h45,
+                        ),
+                      ),
                       SizedBox(height: AppSizes.h40),
-                      Text("Welcome to Newts", style: TextStyle(fontSize: AppSizes.sp20, fontWeight: FontWeight.w700)),
-                      SizedBox(height: 24),
+                      Text(
+                        "Welcome to Newts",
+                        style: TextStyle(
+                          fontSize: AppSizes.sp20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
                       CustomTextFormField(
                         controller: emailController,
                         hintText: 'usama@gmail.com',
@@ -95,7 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (value == null || value.isEmpty) {
                             return "Please Enter Email";
                           }
-                          RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                          RegExp emailRegExp = RegExp(
+                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                          );
 
                           if (!emailRegExp.hasMatch(value)) {
                             return 'Please Enter Valid Email';
@@ -122,7 +134,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (errorMessage != null)
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: AppSizes.ph8),
-                          child: Text(errorMessage!, style: TextStyle(color: Colors.red)),
+                          child: Text(
+                            errorMessage!,
+                            style: const TextStyle(color: Colors.red),
+                          ),
                         ),
 
                       SizedBox(height: AppSizes.ph24),
@@ -135,14 +150,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               login();
                             }
                           },
-                          child: isLoading ? CircularProgressIndicator() : Text("Sign In"),
+                          child:
+                              isLoading
+                                  ? const CircularProgressIndicator()
+                                  : const Text("Sign In"),
                         ),
                       ),
                       SizedBox(height: AppSizes.ph24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Don’t have an account ?", style: TextStyle(fontSize: AppSizes.sp14)),
+                          Text(
+                            "Don’t have an account ?",
+                            style: TextStyle(fontSize: AppSizes.sp14),
+                          ),
                           SizedBox(width: AppSizes.pw8),
                           GestureDetector(
                             onTap: () {
@@ -150,14 +171,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (BuildContext context) {
-                                    return RegisterScreen();
+                                    return const RegisterScreen();
                                   },
                                 ),
                               );
                             },
                             child: Text(
                               "Sign Up",
-                              style: TextStyle(color: Theme.of(context).primaryColor, fontSize: AppSizes.sp16),
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: AppSizes.sp16,
+                              ),
                             ),
                           ),
                         ],
