@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/datasource/local_data/preferences_manager.dart';
 import 'package:news_app/core/datasource/local_data/user_repository.dart';
 import 'package:news_app/core/theme/light_theme.dart';
+import 'package:news_app/features/bookmark/data/bookmark_repository.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
 
 void main() async {
@@ -12,7 +13,9 @@ void main() async {
 
   await PreferencesManager().init();
 
-  UserRepository().init();
+  await UserRepository().init();
+
+  await BookmarkRepository().init();
 
   runApp(const MyApp());
 }

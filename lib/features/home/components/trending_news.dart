@@ -3,6 +3,7 @@ import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/extensions/date_time_extension.dart';
 import 'package:news_app/core/theme/light_color.dart';
+import 'package:news_app/core/widgets/bookmark_button.dart';
 import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/features/details/news_details_screen.dart';
 import 'package:news_app/features/home/components/trending_news_shimmer.dart';
@@ -95,7 +96,16 @@ class TrendingNews extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                  
+
+                                          Positioned(
+                                            top: AppSizes.ph8,
+                                            right: AppSizes.pw8,
+                                            child: BookmarkButton(
+                                              article: model,
+                                              size: 24,
+                                            ),
+                                          ),
+
                                           Positioned(
                                             bottom: AppSizes.ph12,
                                             right: AppSizes.pw12,
