@@ -69,6 +69,7 @@ class AppSizes {
   static final double pw12 = 12.w;
   static final double pw16 = 16.w;
   static final double pw18 = 18.w;
+  static final double pw20 = 20.w;
   static final double pw24 = 24.w;
 
   /// Radius
