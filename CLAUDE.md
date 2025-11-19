@@ -79,7 +79,7 @@ lib/
 │   ├── mixins/              # SafeNotify mixin (prevents disposed listener crashes)
 │   ├── constants/           # App-wide constants and responsive sizes (AppSizes)
 │   ├── theme/               # Material theme configuration
-│   └── widgets/             # Reusable custom widgets
+│   └── widgets/             # Reusable custom widgets (BookmarkButton)
 └── features/                # Feature modules (self-contained)
     ├── splash/
     ├── onboarding/
@@ -87,7 +87,11 @@ lib/
     ├── main/                # Bottom navigation shell
     ├── home/                # News feed with categories
     ├── search/
-    ├── bookmark/
+    ├── bookmark/            # Bookmark feature (Repository, Controller, Model, Screen)
+    │   ├── models/          # BookmarkModel (Hive typeId: 1)
+    │   ├── data/            # BookmarkRepository
+    │   ├── bookmark_controller.dart
+    │   └── bookmark_screen.dart
     ├── details/
     └── profile/
 ```
@@ -183,6 +187,49 @@ ChangeNotifierProvider.value(
 
 **Migration Note**: Project is actively migrating from SharedPreferences to Hive. Prefer using `UserRepository` for user-related data.
 
+### Bookmark Feature
+
+**Complete bookmark management system for saving articles:**
+
+**Architecture:**
+- **BookmarkModel** (`features/bookmark/models/bookmark_model.dart`): Hive model (typeId: 1) stores article data + bookmarkedAt timestamp
+- **BookmarkRepository** (`features/bookmark/data/bookmark_repository.dart`): Singleton managing Hive box operations
+- **BookmarkController** (`features/bookmark/bookmark_controller.dart`): State management with Provider
+- **BookmarkButton** (`core/widgets/bookmark_button.dart`): Reusable widget for toggling bookmarks
+
+**Key Features:**
+- ✅ Save/remove articles across the app (Home, Search, Details)
+- ✅ Animated bookmark icon with state indication
+- ✅ Full-featured bookmark screen with search, delete, clear all
+- ✅ Swipe-to-delete with undo functionality
+- ✅ Bookmark count badge on navigation
+- ✅ Pull-to-refresh support
+- ✅ Sorted by most recently bookmarked
+
+**Usage:**
+
+```dart
+// Toggle bookmark
+await BookmarkRepository().toggleBookmark(article);
+
+// Check if bookmarked
+bool isBookmarked = BookmarkRepository().isBookmarked(articleUrl);
+
+// Add bookmark button to UI
+BookmarkButton(
+  article: article,
+  size: 24,
+  activeColor: Colors.red,    // Optional
+  inactiveColor: Colors.grey,  // Optional
+)
+```
+
+**Data Storage:**
+- Uses Hive box: `bookmarkBox`
+- URL as unique key (prevents duplicates)
+- Persistent across app restarts
+- Offline-first architecture
+
 ### Request Status Pattern
 
 All async operations use the `RequestStatusEnum`:
@@ -228,6 +275,7 @@ Reusable widgets in `core/widgets/`:
 - **CustomCachedNetworkImage**: Network image with shimmer loading and error handling
 - **CustomSvgPicture**: Simplified SVG rendering with theme-aware coloring
 - **CustomTextFormField**: Consistent form field styling with validation support
+- **BookmarkButton**: Animated bookmark toggle with state management and user feedback
 
 Use these instead of base Flutter widgets for consistency.
 
@@ -266,7 +314,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();  // 1. Screen utilities first
   await PreferencesManager().init();     // 2. SharedPreferences
-  await UserRepository().init();         // 3. Hive database
+  await UserRepository().init();         // 3. Hive database (User data)
+  await BookmarkRepository().init();     // 4. Hive database (Bookmarks)
   runApp(const MyApp());
 }
 ```
@@ -300,7 +349,7 @@ import 'package:hive_ce_flutter/adapters.dart';
 
 part 'model_name.g.dart';
 
-@HiveType(typeId: X) // Use next available typeId
+@HiveType(typeId: X) // Use next available typeId (0: UserModel, 1: BookmarkModel)
 class ModelName {
   @HiveField(0)
   String? field1;
@@ -355,6 +404,9 @@ Theme components customized:
 - `lib/core/constants/app_sizes.dart` - Responsive size utilities
 - `lib/core/mixins/safe_notify_mixin.dart` - Critical for safe state updates
 - `lib/core/enums/request_status_enum.dart` - Standard status handling
+- `lib/core/widgets/bookmark_button.dart` - Reusable bookmark toggle widget
+- `lib/features/bookmark/data/bookmark_repository.dart` - Bookmark data management
+- `lib/features/bookmark/bookmark_controller.dart` - Bookmark state management
 - `analysis_options.yaml` - Linting rules and formatting config
 - `pubspec.yaml` - Dependencies and asset configuration
 
