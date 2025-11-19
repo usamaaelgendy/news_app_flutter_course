@@ -81,14 +81,6 @@ class BookmarkScreen extends StatelessWidget {
                   onRefresh: () => controller.refresh(),
                   child: Column(
                     children: [
-                      if (controller.isSearching)
-                        Padding(
-                          padding: EdgeInsets.all(AppSizes.pw16),
-                          child: Text(
-                            '${controller.bookmarks.length} result(s) for "${controller.searchQuery}"',
-                            style: TextStyle(fontSize: AppSizes.sp14, color: Colors.grey),
-                          ),
-                        ),
                       Expanded(
                         child: ListView.builder(
                           padding: EdgeInsets.only(bottom: AppSizes.ph16),

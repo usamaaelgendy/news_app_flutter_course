@@ -15,7 +15,6 @@ class BookmarkController extends ChangeNotifier with SafeNotify {
 
   // Search state
   String searchQuery = '';
-  bool isSearching = false;
 
   BookmarkController() {
     loadBookmarks();
@@ -103,16 +102,9 @@ class BookmarkController extends ChangeNotifier with SafeNotify {
   /// Search bookmarks
   void searchBookmarks(String query) {
     searchQuery = query;
-    isSearching = query.isNotEmpty;
     loadBookmarks();
   }
 
-  /// Clear search
-  void clearSearch() {
-    searchQuery = '';
-    isSearching = false;
-    loadBookmarks();
-  }
 
   /// Convert bookmark to article for navigation
   NewsArticleModel getArticleFromBookmark(BookmarkModel bookmark) {

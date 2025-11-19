@@ -14,14 +14,10 @@ class EmptyState extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                controller.isSearching ? Icons.search_off : Icons.bookmark_border,
-                size: 100,
-                color: Colors.grey.shade300,
-              ),
+              Icon(Icons.bookmark_border, size: 100, color: Colors.grey.shade300),
               SizedBox(height: AppSizes.ph24),
               Text(
-                controller.isSearching ? 'No bookmarks found' : 'No bookmarks yet',
+                'No bookmarks yet',
                 style: TextStyle(
                   fontSize: AppSizes.sp20,
                   fontWeight: FontWeight.w600,
@@ -30,19 +26,10 @@ class EmptyState extends StatelessWidget {
               ),
               SizedBox(height: AppSizes.ph8),
               Text(
-                controller.isSearching
-                    ? 'Try a different search term'
-                    : 'Start bookmarking articles to see them here',
+                'Start bookmarking articles to see them here',
                 style: TextStyle(fontSize: AppSizes.sp14, color: Colors.grey.shade500),
                 textAlign: TextAlign.center,
               ),
-              if (controller.isSearching) ...[
-                SizedBox(height: AppSizes.ph16),
-                TextButton(
-                  onPressed: () => controller.clearSearch(),
-                  child: const Text('Clear Search'),
-                ),
-              ],
             ],
           ),
         );
