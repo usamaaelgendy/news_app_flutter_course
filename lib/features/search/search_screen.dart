@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/datasource/remote_data/api_service.dart';
 import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/details/news_details_screen.dart';
-import 'package:news_app/features/search/search_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/features/search/cubit/search_cubit.dart';
 
 class SearchScreen extends StatelessWidget {
-  SearchScreen({super.key});
+  const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return BlocProvider(
       create: (BuildContext context) {
-        return SearchScreenController(NewsRepository(ApiService()));
+        return SearchCubit(NewsRepository(ApiService()));
       },
       child: Scaffold(
         appBar: AppBar(title: Text("Search"), centerTitle: true),
         body: Padding(
           padding: EdgeInsets.all(AppSizes.pw16),
-          child: Consumer<SearchScreenController>(
-            builder: (BuildContext context, SearchScreenController controller, Widget? child) {
+          child: BlocBuilder<SearchCubit, SearchState>(
+            builder: (BuildContext context, state) {
+              final controller = context.read<SearchCubit>();
               return Column(
                 children: [
                   TextField(
@@ -30,19 +31,23 @@ class SearchScreen extends StatelessWidget {
                     },
                     decoration: InputDecoration(
                       hintText: "Search",
-                      suffixIcon: Icon(Icons.search, size: AppSizes.r30, color: Color(0xFFA0A0A0)),
+                      suffixIcon: Icon(
+                        Icons.search,
+                        size: AppSizes.r30,
+                        color: Color(0xFFA0A0A0),
+                      ),
                     ),
                   ),
                   Expanded(
                     child: ListView.separated(
-                      itemCount: controller.newsEverythingList.length,
+                      itemCount: state.newsEverythingList.length,
                       padding: EdgeInsets.zero,
                       itemBuilder: (BuildContext context, int index) {
-                        final model = controller.newsEverythingList[index];
+                        final model = state.newsEverythingList[index];
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: AppSizes.pw8),
                           child: ListTile(
-                            onTap: (){
+                            onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -52,7 +57,11 @@ class SearchScreen extends StatelessWidget {
                                 ),
                               );
                             },
-                            leading: Icon(Icons.search, size: AppSizes.r20, color: Color(0xFFA0A0A0)),
+                            leading: Icon(
+                              Icons.search,
+                              size: AppSizes.r20,
+                              color: const Color(0xFFA0A0A0),
+                            ),
                             title: Text(model.title, maxLines: 1),
                           ),
                         );
