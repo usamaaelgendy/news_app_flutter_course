@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/extensions/date_time_extension.dart';
@@ -8,8 +9,7 @@ import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/features/details/news_details_screen.dart';
 import 'package:news_app/features/home/components/trending_news_shimmer.dart';
 import 'package:news_app/features/home/components/view_all_component.dart';
-import 'package:news_app/features/home/home_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/features/home/cubit/home_cubit.dart';
 
 class TrendingNews extends StatelessWidget {
   const TrendingNews({super.key});
@@ -48,26 +48,33 @@ class TrendingNews extends StatelessWidget {
 
                   SizedBox(
                     height: AppSizes.h140,
-                    child: Consumer<HomeController>(
-                      builder: (BuildContext context, HomeController controller, Widget? child) {
-                        switch (controller.everythingStatus) {
+                    child: BlocBuilder<HomeCubit, HomeState>(
+                      builder: (BuildContext context, state) {
+                        switch (state.everythingStatus) {
                           case RequestStatusEnum.loading:
                             return TrendingNewsShimmer();
                           case RequestStatusEnum.error:
-                            return Center(child: Text(controller.errorMessage!));
+                            return Center(child: Text(state.errorMessage!));
                           case RequestStatusEnum.loaded:
                             return ListView.separated(
                               padding: EdgeInsets.only(left: AppSizes.pw16),
-                              itemCount: controller.newsEverythingList.take(6).length,
+                              itemCount: state.newsEverythingList.take(6).length,
                               scrollDirection: Axis.horizontal,
-                              separatorBuilder: (BuildContext context, int index) => SizedBox(width: AppSizes.pw12),
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      SizedBox(width: AppSizes.pw12),
                               itemBuilder: (BuildContext context, int index) {
-                                final model = controller.newsEverythingList[index];
+                                final model = state.newsEverythingList[index];
                                 return GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) { 
-                                      return NewsDetailsScreen(model: model,);
-                                    }));
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                          return NewsDetailsScreen(model: model);
+                                        },
+                                      ),
+                                    );
                                   },
                                   child: SizedBox(
                                     width: 240,
@@ -81,7 +88,7 @@ class TrendingNews extends StatelessWidget {
                                               width: AppSizes.w240,
                                               height: AppSizes.h140,
                                             ),
-                                  
+
                                           Positioned.fill(
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -111,7 +118,8 @@ class TrendingNews extends StatelessWidget {
                                             right: AppSizes.pw12,
                                             left: AppSizes.pw12,
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   model.title,
@@ -129,7 +137,9 @@ class TrendingNews extends StatelessWidget {
                                                       child: Row(
                                                         children: [
                                                           CircleAvatar(
-                                                            backgroundImage: NetworkImage(model.urlToImage.toString()),
+                                                            backgroundImage: NetworkImage(
+                                                              model.urlToImage.toString(),
+                                                            ),
                                                             radius: AppSizes.r10,
                                                           ),
                                                           SizedBox(width: AppSizes.pw6),
@@ -139,7 +149,8 @@ class TrendingNews extends StatelessWidget {
                                                               style: TextStyle(
                                                                 color: Color(0xFFFFFCFC),
                                                                 fontSize: AppSizes.sp12,
-                                                                fontWeight: FontWeight.w400,
+                                                                fontWeight:
+                                                                    FontWeight.w400,
                                                               ),
                                                               maxLines: 1,
                                                             ),

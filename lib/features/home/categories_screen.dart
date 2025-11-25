@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/theme/light_color.dart';
 import 'package:news_app/features/home/components/categories_list.dart';
 import 'package:news_app/features/home/components/news_item.dart';
-import 'package:news_app/features/home/home_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/features/home/cubit/home_cubit.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -13,12 +13,16 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Categories"), centerTitle: true),
-      body: Consumer<HomeController>(
-        builder: (BuildContext context, controller, Widget? child) {
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (BuildContext context, state) {
           return Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: AppSizes.pw16, top: AppSizes.ph16, bottom: AppSizes.ph16),
+                padding: EdgeInsets.only(
+                  left: AppSizes.pw16,
+                  top: AppSizes.ph16,
+                  bottom: AppSizes.ph16,
+                ),
                 child: SizedBox(
                   height: AppSizes.h35,
                   child: ListView.separated(
@@ -26,16 +30,19 @@ class CategoriesScreen extends StatelessWidget {
                     itemCount: categories.length,
                     padding: EdgeInsets.only(right: AppSizes.pw16),
                     itemBuilder: (BuildContext context, int index) {
-                      bool isSelected = categories[index] == controller.selectedCategory;
+                      bool isSelected = categories[index] == state.selectedCategory;
                       return GestureDetector(
                         onTap: () {
-                          controller.updateSelectedCategory(categories[index]);
+                          context.read<HomeCubit>().updateSelectedCategory(
+                            categories[index],
+                          );
                         },
                         child: IntrinsicWidth(
                           child: Column(
                             children: [
                               Text(
-                                categories[index][0].toUpperCase() + categories[index].substring(1),
+                                categories[index][0].toUpperCase() +
+                                    categories[index].substring(1),
                                 style: TextStyle(
                                   color: Color(0xFF363636),
                                   fontSize: AppSizes.sp16,
@@ -44,7 +51,10 @@ class CategoriesScreen extends StatelessWidget {
                               ),
                               if (isSelected) ...[
                                 SizedBox(height: AppSizes.h4),
-                                Container(height: AppSizes.h2, color: LightColors.primaryColor),
+                                Container(
+                                  height: AppSizes.h2,
+                                  color: LightColors.primaryColor,
+                                ),
                               ],
                             ],
                           ),
@@ -59,9 +69,9 @@ class CategoriesScreen extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: controller.newsTopHeadLineList.length,
+                  itemCount: state.newsTopHeadLineList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final model = controller.newsTopHeadLineList[index];
+                    final model = state.newsTopHeadLineList[index];
                     return NewsItem(model: model);
                   },
                 ),

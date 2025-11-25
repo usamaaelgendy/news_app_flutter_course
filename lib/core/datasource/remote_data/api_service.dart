@@ -15,7 +15,9 @@ class ApiService extends BaseApiService {
 
     print(url);
     try {
-      final http.Response response = await http.get(url);
+      final http.Response response = await http.get(url , headers: {
+        "accept": "application/json",
+      });
 
       return jsonDecode(response.body) as Map<String, dynamic>;
     } catch (e) {
