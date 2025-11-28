@@ -17,6 +17,7 @@ class NewsRepository extends BaseNewsRepository {
   Future<List<NewsArticleModel>> getTopHeadLine({String? selectedCategory = "general"}) async {
     Map<String, dynamic> result = await apiService.get(
       ApiConfig.topHeadlines,
+      ApiConfig.newsBaseUrl,
       params: {"country": "us", "category": selectedCategory},
     );
 
@@ -25,7 +26,7 @@ class NewsRepository extends BaseNewsRepository {
 
   @override
   Future<List<NewsArticleModel>> getEverything({String? query = "news"}) async {
-    Map<String, dynamic> result = await apiService.get(ApiConfig.everything, params: {"q": query});
+    Map<String, dynamic> result = await apiService.get(ApiConfig.everything , ApiConfig.newsBaseUrl, params: {"q": query});
 
     return (result["articles"] as List).map((e) => NewsArticleModel.fromJson(e)).toList();
   }
