@@ -12,12 +12,19 @@ class AuthCubit extends Cubit<AuthState> {
   AuthRepository authRepository;
 
   Future<void> login({required String username, required String password}) async {
-    emit(state.copyWith(status: RequestStatusEnum.loading, errorMessage: null));
 
-    final userModel = await authRepository.login(username: username, password: password);
+    try{
+      emit(state.copyWith(status: RequestStatusEnum.loading, errorMessage: null));
 
-    if (userModel != null) {
-      emit(state.copyWith(status: RequestStatusEnum.loaded, userModel: userModel));
+      final userModel = await authRepository.login(username: username, password: password);
+
+      if (userModel != null) {
+        emit(state.copyWith(status: RequestStatusEnum.loaded, userModel: userModel));
+      }
+    }catch(e){
+      emit(state.copyWith(status: RequestStatusEnum.error, errorMessage: e.toString()));
+
     }
+
   }
 }
