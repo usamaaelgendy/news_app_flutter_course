@@ -84,7 +84,7 @@ class UserRepository {
   }) async {
     final user = getUser();
 
-    if (user != null) {
+    if (user != null && user.email == email) {
       return "User Already Exists Please Login";
     }
 
