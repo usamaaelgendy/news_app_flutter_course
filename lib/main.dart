@@ -19,8 +19,11 @@ void main() async {
 
   await BookmarkRepository().init();
 
-  DioExample.exampleGetRequest();
-  DioExample.exampleGetRequestWithQueryParameter();
+  // DioExample.exampleGetRequest();
+  // DioExample.exampleGetRequestWithQueryParameter();
+  // DioExample.examplePostRequest();
+  // DioExample.examplePutRequest();
+  DioExample.exampleDeleteRequest();
 
 
   runApp(const MyApp());
