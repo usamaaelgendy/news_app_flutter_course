@@ -6,6 +6,8 @@ class DioConfig {
       BaseOptions(
         baseUrl: "https://dummyjson.com/",
         connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        sendTimeout: const Duration(seconds: 30),
         headers: {"accept": "application/json", "Content-Type": "application/json"},
       ),
     );

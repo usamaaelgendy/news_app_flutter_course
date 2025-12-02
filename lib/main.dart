@@ -23,7 +23,8 @@ void main() async {
   // DioExample.exampleGetRequestWithQueryParameter();
   // DioExample.examplePostRequest();
   // DioExample.examplePutRequest();
-  DioExample.exampleDeleteRequest();
+  // DioExample.exampleDeleteRequest();
+  DioExample.exampleErrorHandling();
 
 
   runApp(const MyApp());

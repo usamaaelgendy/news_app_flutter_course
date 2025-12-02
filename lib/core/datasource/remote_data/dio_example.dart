@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:news_app/core/datasource/remote_data/dio_config.dart';
 
 class DioExample {
@@ -30,7 +31,6 @@ class DioExample {
 
     print("examplePutRequest");
     print(response);
-
   }
 
   static Future<void> exampleDeleteRequest() async {
@@ -38,5 +38,31 @@ class DioExample {
 
     print("exampleDeleteRequest");
     print(response);
+  }
+
+  static Future<void> exampleErrorHandling() async {
+    try {
+      final response = await dio.post("lfnal;ksnflsaknflkasn;fsalnf");
+
+      print("exampleErrorHandling");
+      print(response);
+    } on DioException catch (e) {
+      print("Error ${e.type}");
+      print("Error ${e.message}");
+      print("Error ${e.response?.statusCode}");
+
+      switch(e.type){
+        case DioExceptionType.connectionTimeout:
+          throw "Connection timeout";
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+        case DioExceptionType.badCertificate:
+        case DioExceptionType.badResponse:
+        case DioExceptionType.cancel:
+        case DioExceptionType.connectionError:
+        case DioExceptionType.unknown:
+          throw e.message.toString();
+      }
+    }
   }
 }
