@@ -1,19 +1,18 @@
-
-
 import 'package:dio/dio.dart';
+import 'package:news_app/core/datasource/remote_data/dio_config.dart';
 
 class DioExample {
+  static Future<void> exampleGetRequest() async {
+    try {
+      final dio = DioConfig.createDio();
 
-  static Future<void> exampleGetRequest()async{
-    final dio = Dio();
+      final response = await dio.get("products");
 
-    final response = await dio.get("https://dummyjson.com/products");
+      print(response.data);
+    } catch (e) {}
+  }
 
-
-    print(response.statusCode);
-    print(response.statusMessage);
-    print(response.headers);
-    print(response.data);
-
+  static Future<void> exampleGetRequestWithQueryParameter() async {
+    final dio = Dio(BaseOptions());
   }
 }
