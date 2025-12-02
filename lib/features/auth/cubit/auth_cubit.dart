@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/models/user_model.dart';
-import 'package:news_app/features/auth/repo/auth_reposatory.dart';
+import 'package:news_app/features/auth/repo/auth_repository.dart';
 
 part 'auth_state.dart';
 

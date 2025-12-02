@@ -8,7 +8,7 @@ import 'package:news_app/core/enums/request_status_enum.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/cubit/auth_cubit.dart';
 import 'package:news_app/features/auth/register_screen.dart';
-import 'package:news_app/features/auth/repo/auth_reposatory.dart';
+import 'package:news_app/features/auth/repo/auth_repository.dart';
 import 'package:news_app/features/main/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
