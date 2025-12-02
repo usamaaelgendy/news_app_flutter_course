@@ -19,12 +19,18 @@ class UserModel {
   @HiveField(4)
   String? countryCode;
 
+  String? accessToken;
+
+  String? refreshToken;
+
   UserModel({
     required this.name,
-    required this.email,
+    this.email,
     this.password,
     this.countryName,
     this.countryCode,
+    this.accessToken,
+    this.refreshToken,
   });
 
   Map<String, dynamic> toMap() {
@@ -47,6 +53,14 @@ class UserModel {
     );
   }
 
+  factory UserModel.fromAuthResponse(Map<String, dynamic> json, String username) {
+    return UserModel(
+      name: username,
+      accessToken: json['accessToken'],
+      refreshToken: json['refreshToken'],
+    );
+  }
+
   UserModel copyWith({
     String? name,
     String? email,
@@ -61,5 +75,10 @@ class UserModel {
       countryName: countryName ?? this.countryName,
       countryCode: countryCode ?? this.countryCode,
     );
+  }
+
+  @override
+  String toString() {
+    return 'UserModel{name: $name, email: $email, password: $password, countryName: $countryName, countryCode: $countryCode, accessToken: $accessToken, refreshToken: $refreshToken}';
   }
 }

@@ -56,7 +56,11 @@ class ApiService extends BaseApiService {
     }
 
     try {
-      final http.Response response = await http.post(url, headers: headers);
+      final http.Response response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode(body),
+      );
 
       final responseBody = jsonDecode(response.body) as Map<String, dynamic>;
 
