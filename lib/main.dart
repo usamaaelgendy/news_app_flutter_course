@@ -20,6 +20,7 @@ void main() async {
   await BookmarkRepository().init();
 
   DioExample.exampleGetRequest();
+  DioExample.exampleGetRequestWithQueryParameter();
 
 
   runApp(const MyApp());

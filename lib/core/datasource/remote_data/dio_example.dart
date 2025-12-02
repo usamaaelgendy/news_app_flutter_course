@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:news_app/core/datasource/remote_data/dio_config.dart';
 
 class DioExample {
@@ -13,6 +12,15 @@ class DioExample {
   }
 
   static Future<void> exampleGetRequestWithQueryParameter() async {
-    final dio = Dio(BaseOptions());
+    // products/search?q=phone
+    final dio = DioConfig.createDio();
+
+    final response = await dio.get("products/search", queryParameters: {"q": "phone"});
+
+    print("exampleGetRequestWithQueryParameter");
+    print(response.data);
   }
+
+
+
 }
