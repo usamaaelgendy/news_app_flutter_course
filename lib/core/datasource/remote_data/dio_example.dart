@@ -30,10 +30,6 @@ class DioExample {
     try {
       await dio.post("lfnal;ksnflsaknflkasn;fsalnf");
     } on DioException catch (e) {
-      print("Error ${e.type}");
-      print("Error ${e.message}");
-      print("Error ${e.response?.statusCode}");
-
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
           throw "Connection timeout";

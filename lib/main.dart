@@ -24,7 +24,7 @@ void main() async {
   DioExample.examplePostRequest();
   DioExample.examplePutRequest();
   DioExample.exampleDeleteRequest();
-  // DioExample.exampleErrorHandling();
+  DioExample.exampleErrorHandling();
 
 
   runApp(const MyApp());

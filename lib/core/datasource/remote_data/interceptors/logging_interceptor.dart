@@ -18,21 +18,37 @@ class LoggingInterceptor extends Interceptor {
       log("Body = ${options.data}");
     }
 
-
     handler.next(options);
   }
-
 
   @override
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     log("Response = ${response.data}");
     log("StatusCode = ${response.statusCode}");
     log(response.requestOptions.path);
-
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
+    log("BaseUrl = ${err.requestOptions.baseUrl}");
+    log("Path = ${err.requestOptions.path}");
+    log("Uri = ${err.requestOptions.uri}");
+    log("Method = ${err.requestOptions.method}");
 
+    if (err.requestOptions.queryParameters.isNotEmpty) {
+      log("QueryParameters = ${err.requestOptions.queryParameters}");
+    }
+
+    if (err.requestOptions.data != null) {
+      log("Body = ${err.requestOptions.data}");
+    }
+
+    log("Error");
+
+    print("Type ${err.type}");
+    print("Message ${err.message}");
+    print("StatusCode ${err.response?.statusCode}");
+
+    handler.next(err);
   }
 }
