@@ -6,52 +6,35 @@ class DioExample {
 
   static Future<void> exampleGetRequest() async {
     try {
-      final response = await dio.get("products");
-
-      print(response.data);
+      await dio.get("products");
     } catch (e) {}
   }
 
   static Future<void> exampleGetRequestWithQueryParameter() async {
-    final response = await dio.get("products/search", queryParameters: {"q": "phone"});
-
-    print("exampleGetRequestWithQueryParameter");
-    print(response.data);
+    await dio.get("products/search", queryParameters: {"q": "phone"});
   }
 
   static Future<void> examplePostRequest() async {
-    final response = await dio.post("products/add", data: {"title": "adsdasdasd"});
-
-    print("examplePostRequest");
-    print(response);
+    await dio.post("products/add", data: {"title": "adsdasdasd"});
   }
 
   static Future<void> examplePutRequest() async {
-    final response = await dio.put("products/1", data: {"title": 'iPhone Galaxy +1'});
-
-    print("examplePutRequest");
-    print(response);
+    await dio.put("products/1", data: {"title": 'iPhone Galaxy +1'});
   }
 
   static Future<void> exampleDeleteRequest() async {
-    final response = await dio.delete("products/1");
-
-    print("exampleDeleteRequest");
-    print(response);
+    await dio.delete("products/1");
   }
 
   static Future<void> exampleErrorHandling() async {
     try {
-      final response = await dio.post("lfnal;ksnflsaknflkasn;fsalnf");
-
-      print("exampleErrorHandling");
-      print(response);
+      await dio.post("lfnal;ksnflsaknflkasn;fsalnf");
     } on DioException catch (e) {
       print("Error ${e.type}");
       print("Error ${e.message}");
       print("Error ${e.response?.statusCode}");
 
-      switch(e.type){
+      switch (e.type) {
         case DioExceptionType.connectionTimeout:
           throw "Connection timeout";
         case DioExceptionType.sendTimeout:
