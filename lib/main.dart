@@ -8,6 +8,8 @@ import 'package:news_app/features/splash/splash_screen.dart';
 
 import 'core/datasource/remote_data/dio_example.dart';
 
+final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -26,7 +28,6 @@ void main() async {
   DioExample.exampleDeleteRequest();
   DioExample.exampleErrorHandling();
 
-
   runApp(const MyApp());
 }
 
@@ -36,10 +37,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(375, 832),
+      designSize: const Size(375, 832),
       minTextAdapt: true,
       builder: (ctx, _) {
         return MaterialApp(
+          navigatorKey: navigationKey,
           title: 'Tasky App',
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
