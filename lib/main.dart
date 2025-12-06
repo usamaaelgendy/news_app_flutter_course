@@ -6,8 +6,6 @@ import 'package:news_app/core/theme/light_theme.dart';
 import 'package:news_app/features/bookmark/data/bookmark_repository.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
 
-import 'core/datasource/remote_data/dio_example.dart';
-
 final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
 
 void main() async {
@@ -20,13 +18,6 @@ void main() async {
   await UserRepository().init();
 
   await BookmarkRepository().init();
-
-  DioExample.exampleGetRequest();
-  DioExample.exampleGetRequestWithQueryParameter();
-  DioExample.examplePostRequest();
-  DioExample.examplePutRequest();
-  DioExample.exampleDeleteRequest();
-  DioExample.exampleErrorHandling();
 
   runApp(const MyApp());
 }
