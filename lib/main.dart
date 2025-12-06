@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           title: 'Tasky App',
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
-          home: SplashScreen(),
+          home: const SplashScreen(),
         );
       },
     );

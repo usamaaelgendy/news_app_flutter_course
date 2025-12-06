@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:news_app/core/datasource/remote_data/interceptors/auth_interceptor.dart';
 
 import 'interceptors/logging_interceptor.dart';
 
@@ -14,7 +15,8 @@ class DioConfig {
       ),
     );
 
-    dio.interceptors.add(LoggingInterceptor());
+
+    dio.interceptors.addAll([LoggingInterceptor(), AuthInterceptor()]);
 
     return dio;
   }
