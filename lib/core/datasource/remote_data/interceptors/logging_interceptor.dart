@@ -5,49 +5,65 @@ import 'package:dio/dio.dart';
 class LoggingInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    log("BaseUrl = ${options.baseUrl}");
-    log("Path = ${options.path}");
-    log("Uri = ${options.uri}");
-    log("Method = ${options.method}");
+    log('╔════════════════════════════════════════════════════════════');
+    log('║ 🚀 REQUEST');
+    log('║ ────────────────────────────────────────────────────────────');
+    log('║ Method: ${options.method}');
+    log('║ URL: ${options.uri}');
+    log('║ Headers: ${options.headers}');
 
     if (options.queryParameters.isNotEmpty) {
-      log("QueryParameters = ${options.queryParameters}");
+      log('║ Query Parameters: ${options.queryParameters}');
     }
 
     if (options.data != null) {
-      log("Body = ${options.data}");
+      log('║ Body: ${options.data}');
     }
+
+    log('╚════════════════════════════════════════════════════════════');
 
     handler.next(options);
   }
 
   @override
-  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
-    log("Response = ${response.data}");
-    log("StatusCode = ${response.statusCode}");
-    log(response.requestOptions.path);
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    log('╔════════════════════════════════════════════════════════════');
+    log('║ ✅ RESPONSE');
+    log('║ ────────────────────────────────────────────────────────────');
+    log('║ Status Code: ${response.statusCode}');
+    log('║ URL: ${response.requestOptions.uri}');
+
+    final responseData = response.data.toString();
+    if (responseData.length > 500) {
+      log('║ Data: ${responseData.substring(0, 500)}... (truncated)');
+    } else {
+      log('║ Data: $responseData');
+    }
+
+    log('╚════════════════════════════════════════════════════════════');
+
+    handler.next(response);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    log("BaseUrl = ${err.requestOptions.baseUrl}");
-    log("Path = ${err.requestOptions.path}");
-    log("Uri = ${err.requestOptions.uri}");
-    log("Method = ${err.requestOptions.method}");
+    log('╔════════════════════════════════════════════════════════════');
+    log('║ ❌ ERROR');
+    log('║ ────────────────────────────────────────────────────────────');
+    log('║ Method: ${err.requestOptions.method}');
+    log('║ URL: ${err.requestOptions.uri}');
+    log('║ Error Type: ${err.type}');
+    log('║ Error Message: ${err.message}');
 
-    if (err.requestOptions.queryParameters.isNotEmpty) {
-      log("QueryParameters = ${err.requestOptions.queryParameters}");
+    if (err.response?.statusCode != null) {
+      log('║ Status Code: ${err.response?.statusCode}');
     }
 
-    if (err.requestOptions.data != null) {
-      log("Body = ${err.requestOptions.data}");
+    if (err.response?.data != null) {
+      log('║ Error Data: ${err.response?.data}');
     }
 
-    log("Error");
-
-    print("Type ${err.type}");
-    print("Message ${err.message}");
-    print("StatusCode ${err.response?.statusCode}");
+    log('╚════════════════════════════════════════════════════════════');
 
     handler.next(err);
   }
