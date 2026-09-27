@@ -11,9 +11,16 @@ class ApiService extends BaseApiService {
 
   @override
   Future<dynamic> get(String endpoint, {Map<String, dynamic>? params}) async {
-    var url = Uri.http(ApiConfig.baseUrl, "v2/$endpoint", {"apiKey": ApiConfig.apiKey, ...?params});
+    if (ApiConfig.apiKey.isEmpty) {
+      throw Exception(
+        "NEWS_API_KEY is missing. Run: flutter run --dart-define-from-file=env.json (see README)",
+      );
+    }
 
-    print(url);
+    var url = Uri.https(ApiConfig.baseUrl, "v2/$endpoint", {"apiKey": ApiConfig.apiKey, ...?params});
+
+    // Log the request without the API key.
+    print(url.replace(queryParameters: {...url.queryParameters}..remove("apiKey")));
     try {
       final http.Response response = await http.get(url);
 

@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local API keys (copy env.example.json to env.json and add your own key)
+env.json
+.env

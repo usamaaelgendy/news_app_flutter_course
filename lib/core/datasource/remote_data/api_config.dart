@@ -1,6 +1,10 @@
 class ApiConfig {
   static const baseUrl = "newsapi.org";
-  static const String apiKey = "6b6a60f37b8144b195ec3aab5ae6f414";
+
+  /// Your own NewsAPI key, passed at build time (it is never stored in the repo):
+  /// flutter run --dart-define-from-file=env.json
+  /// or: flutter run --dart-define=NEWS_API_KEY=<your_key>
+  static const String apiKey = String.fromEnvironment('NEWS_API_KEY');
 
   /// Endpoints
   static const String topHeadlines = "top-headlines";
